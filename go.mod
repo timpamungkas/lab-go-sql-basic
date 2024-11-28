@@ -1,4 +1,4 @@
-module github.com/alpharent/apartment
+module github.com/alpharent
 
 go 1.23.3
 
