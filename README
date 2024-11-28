@@ -1,5 +1,5 @@
 go get -u modernc.org/sqlite
 go get -u github.com/golang-migrate/migrate/v4
-go get github.com/golang-migrate/migrate/v4/database/sqlite3
+go get -u github.com/golang-migrate/migrate/v4/database/sqlite3
 
 https://practicalgobook.net/posts/go-sqlite-no-cgo/#initialize-your-module

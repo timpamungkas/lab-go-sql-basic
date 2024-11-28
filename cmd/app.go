@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/alpharent/datastore"
+	"github.com/alpharent/apartment/datastore"
 )
 
 func main() {
