@@ -41,8 +41,11 @@ func (h *ClientHttpHandler) convertToClientDatabaseRow(clientHttp ClientHttp) da
 	clientDatabaseRow := datastore.ClientDatabaseRow{
 		ClientID: *clientHttp.ClientID,
 		FullName: *clientHttp.FullName,
-		Email:    sql.NullString{String: *clientHttp.Email, Valid: true},
 		Phone:    *clientHttp.Phone,
+	}
+
+	if clientHttp.Email != nil {
+		clientDatabaseRow.Email = sql.NullString{String: *clientHttp.Email, Valid: true}
 	}
 
 	return clientDatabaseRow
@@ -52,8 +55,11 @@ func (h *ClientHttpHandler) convertToClientHttp(clientRow datastore.ClientDataba
 	clientHttp := ClientHttp{
 		ClientID: &clientRow.ClientID,
 		FullName: &clientRow.FullName,
-		Email:    &clientRow.Email.String,
 		Phone:    &clientRow.Phone,
+	}
+
+	if clientRow.Email.Valid {
+		clientHttp.Email = &clientRow.Email.String
 	}
 
 	return clientHttp
@@ -92,7 +98,7 @@ func (h *ClientHttpHandler) SelectAllClientsHandler(w http.ResponseWriter, r *ht
 		return
 	}
 
-	var clientsHttp []ClientHttp
+	clientsHttp := []ClientHttp{}
 
 	for _, clientRow := range clients {
 		clientHttp := h.convertToClientHttp(clientRow)

@@ -26,10 +26,10 @@ func (s *ClientStore) CountClients() (int, error) {
 }
 
 type ClientDatabaseRow struct {
-	ClientID string         `json:"client_id"`
-	FullName string         `json:"full_name"`
-	Email    sql.NullString `json:"email"`
-	Phone    string         `json:"phone"`
+	ClientID string
+	FullName string
+	Email    sql.NullString
+	Phone    string
 }
 
 const sqlInsertClient = `
@@ -37,7 +37,7 @@ const sqlInsertClient = `
 		client_id, full_name, email, phone
 	)
 	VALUES(
-		$1, $2, $3, $4
+		$1, $2, NULLIF($3,''), $4
 	)
 `
 
