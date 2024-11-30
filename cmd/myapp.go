@@ -59,22 +59,22 @@ func main() {
 		clientHttpHandler.SelectAllClientsHandler(w, r)
 	})
 
+	http.HandleFunc("/api/transaction/client-apartment", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		clientApartmentHttpHandler.InsertClientApartmentHandler(w, r)
+	})
+
+	http.HandleFunc("/api/client-apartments/all", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		clientApartmentHttpHandler.SelectAllClientApartmentsHandler(w, r)
+	})
+
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-
-// http.HandleFunc("/api/transaction/client-apartment", func(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method != http.MethodPost {
-// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-// 	insertClientApartmentHandler(w, r)
-// })
-
-// http.HandleFunc("/api/client-apartments/all", func(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method != http.MethodGet {
-// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-// 	selectAllClientApartmentsHandler(w, r)
-// })
