@@ -32,6 +32,7 @@ func main() {
 	migrationFromFile.MigrateClientsFromCsv("db/csv/clients.csv", true)
 	migrationFromFile.MigrateClientApartmentsFromCsv("db/csv/client_apartments.csv", true)
 	migrationFromFile.MigrateClientsFromJson("db/json/clients.json")
+	migrationFromFile.MigrateClientApartmentsFromJson("db/json/client_apartments.json")
 
 	http.HandleFunc("/api/count/clients", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
