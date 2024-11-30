@@ -1,4 +1,4 @@
 apartment_id,description,building_name,room_number,street_address,city,postal_code,is_available_for_rent,rent_price,client_id
-7ae26ffe-42d2-46ce-9172-131dbbb0ba3d,Cozy 3-bedroom penthouse,Sunrise Luxuries,2401,849 Elm Street,Washington,48927,FALSE,50000,a98cdaa1-d480-403b-913c-030f7dec7d4d
-e6acd8ca-565f-49c4-85e2-fdfa32756dd2,Minimalist 1-bedroom apartment,Moonlight Towers,710,456 Oak Avenue,Gotham,77592,FALSE,3500,5ca235cf-8ac3-4538-911a-a81e4b572c41
-6a79dcd0-e88a-459b-a93e-a9f3f433fc43,Modern studio apartment,Skyline Residences,1511,950 Maple Lane,Gotham,19278,FALSE,2500,02a31956-09bc-428e-a088-66dd522217c8
+7ae26ffe-42d2-46ce-9172-131dbbb0ba3d,Cozy 3-bedroom penthouse,Sunrise Luxuries,2401,849 Elm Street,Washington,48927,false,50000,a98cdaa1-d480-403b-913c-030f7dec7d4d
+e6acd8ca-565f-49c4-85e2-fdfa32756dd2,Minimalist 1-bedroom apartment,Moonlight Towers,710,456 Oak Avenue,Gotham,77592,false,3500,5ca235cf-8ac3-4538-911a-a81e4b572c41
+6a79dcd0-e88a-459b-a93e-a9f3f433fc43,Modern studio apartment,Skyline Residences,1511,950 Maple Lane,Gotham,19278,false,2500,02a31956-09bc-428e-a088-66dd522217c8

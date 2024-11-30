@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/alpharent/apartment/datastore"
+	filemigration "github.com/alpharent/apartment/file_migration"
 	httphandler "github.com/alpharent/apartment/http_handler"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -26,6 +27,11 @@ func main() {
 	clientApartmentStore := datastore.NewClientApartmentStore(db)
 	clientHttpHandler := httphandler.NewClientHttpHandler(*clientStore)
 	clientApartmentHttpHandler := httphandler.NewClientApartmentHttpHandler(*clientApartmentStore)
+
+	migrationFromFile := filemigration.NewMigrationFromFile(*clientStore, *clientApartmentStore)
+	migrationFromFile.MigrateClientsFromCsv("db/csv/clients.csv", true)
+	migrationFromFile.MigrateClientApartmentsFromCsv("db/csv/client_apartments.csv", true)
+	migrationFromFile.MigrateClientsFromJson("db/json/clients.json")
 
 	http.HandleFunc("/api/count/clients", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {

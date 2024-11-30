@@ -1,0 +1,38 @@
+[
+    {
+        "apartment_id":"d7869c24-5c4f-478f-9db8-1cfed9593407",
+        "description":"Green painted 1-bedroom apartment",
+        "building_name":"Tree Park View",
+        "room_number":1104,
+        "street_address":"109 Western Boulevard",
+        "city":"Baltimore",
+        "postal_code":40192,
+        "is_available_for_rent":"true",
+        "rent_price":2750,
+        "client_id":"d1ffa3b7-72c4-406a-9443-4e9035e47fd5"
+    },
+    {
+        "apartment_id":"f0e5870a-dad9-49d4-a1bc-1a4f245a5f76",
+        "description":"Spacious studio apartment",
+        "building_name":"Da Vinci Building",
+        "room_number":814,
+        "street_address":"901 Owl Street",
+        "city":"Gotham",
+        "postal_code":44729,
+        "is_available_for_rent":"false",
+        "rent_price":2400,
+        "client_id":"3ab09dcd-c211-4937-b9b1-e042c87baf6c"
+    },
+    {
+        "apartment_id":"4093295b-6557-44fd-9d37-42729ee96073",
+        "description":"1-bedroom apartment with large kitchen",
+        "building_name":"Jade Stonehouse",
+        "room_number":1420,
+        "street_address":"772 Dune Street",
+        "city":"Central",
+        "postal_code":59271,
+        "is_available_for_rent":"true",
+        "rent_price":3500,
+        "client_id":"d02652fc-eaeb-4451-9d35-32fd974ee8ff"
+    }
+]
