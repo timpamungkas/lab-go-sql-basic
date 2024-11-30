@@ -13,7 +13,7 @@ func InitializeDatabase(migrationFolder, driver string) {
 	fmt.Println("Starting")
 
 	// Open a connection to the SQLite database
-	db, err := sql.Open("sqlite", "example.db")
+	db, err := sql.Open("sqlite", "alpharent.db")
 	if err != nil {
 		log.Fatal(err)
 	}

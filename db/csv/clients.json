@@ -1,0 +1,20 @@
+[
+    {
+        "client_id": "d1ffa3b7-72c4-406a-9443-4e9035e47fd5",
+        "full_name": "Guy Gardner",
+        "email": "guy.gardner@something.com",
+        "phone": "7779104"
+    },
+    {
+        "client_id": "3ab09dcd-c211-4937-b9b1-e042c87baf6c",
+        "full_name": "Helena Bertinelli",
+        "email": "helena.bertinelli@something.com",
+        "phone": "7775458"
+    },
+    {
+        "client_id": "d02652fc-eaeb-4451-9d35-32fd974ee8ff",
+        "full_name": "Iris West",
+        "email": "iris.west@something.com",
+        "phone": "7771005"
+    }
+]
