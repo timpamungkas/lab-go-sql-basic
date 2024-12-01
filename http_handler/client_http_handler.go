@@ -37,20 +37,6 @@ type ClientHttp struct {
 	Phone    *string `json:"phone"`
 }
 
-func (h *ClientHttpHandler) convertToClientDatabaseRow(clientHttp ClientHttp) datastore.ClientDatabaseRow {
-	clientDatabaseRow := datastore.ClientDatabaseRow{
-		ClientID: *clientHttp.ClientID,
-		FullName: *clientHttp.FullName,
-		Phone:    *clientHttp.Phone,
-	}
-
-	if clientHttp.Email != nil {
-		clientDatabaseRow.Email = sql.NullString{String: *clientHttp.Email, Valid: true}
-	}
-
-	return clientDatabaseRow
-}
-
 func (h *ClientHttpHandler) convertToClientHttp(clientRow datastore.ClientDatabaseRow) ClientHttp {
 	clientHttp := ClientHttp{
 		ClientID: &clientRow.ClientID,
@@ -63,6 +49,39 @@ func (h *ClientHttpHandler) convertToClientHttp(clientRow datastore.ClientDataba
 	}
 
 	return clientHttp
+}
+
+func (h *ClientHttpHandler) SelectAllClientsHandler(w http.ResponseWriter, r *http.Request) {
+	clients, err := h.datastore.SelectAllClients()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	clientsHttp := []ClientHttp{}
+
+	for _, clientRow := range clients {
+		clientHttp := h.convertToClientHttp(clientRow)
+		clientsHttp = append(clientsHttp, clientHttp)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(clientsHttp)
+}
+
+func (h *ClientHttpHandler) convertToClientDatabaseRow(clientHttp ClientHttp) datastore.ClientDatabaseRow {
+	clientDatabaseRow := datastore.ClientDatabaseRow{
+		ClientID: *clientHttp.ClientID,
+		FullName: *clientHttp.FullName,
+		Phone:    *clientHttp.Phone,
+	}
+
+	if clientHttp.Email != nil {
+		clientDatabaseRow.Email = sql.NullString{String: *clientHttp.Email, Valid: true}
+	}
+
+	return clientDatabaseRow
 }
 
 func (h *ClientHttpHandler) InsertClientHandler(w http.ResponseWriter, r *http.Request) {
@@ -89,23 +108,4 @@ func (h *ClientHttpHandler) InsertClientHandler(w http.ResponseWriter, r *http.R
 	response := map[string]string{"message": responseMessage}
 
 	json.NewEncoder(w).Encode(response)
-}
-
-func (h *ClientHttpHandler) SelectAllClientsHandler(w http.ResponseWriter, r *http.Request) {
-	clients, err := h.datastore.SelectAllClients()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	clientsHttp := []ClientHttp{}
-
-	for _, clientRow := range clients {
-		clientHttp := h.convertToClientHttp(clientRow)
-		clientsHttp = append(clientsHttp, clientHttp)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	json.NewEncoder(w).Encode(clientsHttp)
 }

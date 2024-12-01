@@ -43,38 +43,6 @@ type ClientApartmentHttp struct {
 	ClientID           *string  `json:"client_id"`
 }
 
-func (h *ClientApartmentHttpHandler) convertToClientApartmentDatabaseRow(clientApartmentHttp ClientApartmentHttp) datastore.ClientApartmentDatabaseRow {
-	clientApartmentDatabaseRow := datastore.ClientApartmentDatabaseRow{
-		ApartmentID:   *clientApartmentHttp.ApartmentID,
-		StreetAddress: *clientApartmentHttp.StreetAddress,
-		City:          *clientApartmentHttp.City,
-		RentPrice:     *clientApartmentHttp.RentPrice,
-		ClientID:      *clientApartmentHttp.ClientID,
-	}
-
-	if clientApartmentHttp.Description != nil {
-		clientApartmentDatabaseRow.Description = sql.NullString{String: *clientApartmentHttp.Description, Valid: true}
-	}
-
-	if clientApartmentHttp.BuildingName != nil {
-		clientApartmentDatabaseRow.BuildingName = sql.NullString{String: *clientApartmentHttp.BuildingName, Valid: true}
-	}
-
-	if clientApartmentHttp.RoomNumber != nil {
-		clientApartmentDatabaseRow.RoomNumber = sql.NullString{String: *clientApartmentHttp.RoomNumber, Valid: true}
-	}
-
-	if clientApartmentHttp.PostalCode != nil {
-		clientApartmentDatabaseRow.PostalCode = sql.NullString{String: *clientApartmentHttp.PostalCode, Valid: true}
-	}
-
-	if clientApartmentHttp.IsAvailableForRent != nil {
-		clientApartmentDatabaseRow.IsAvailableForRent = sql.NullBool{Bool: *clientApartmentHttp.IsAvailableForRent, Valid: true}
-	}
-
-	return clientApartmentDatabaseRow
-}
-
 func (h *ClientApartmentHttpHandler) convertToClientApartmentHttp(clientApartmentRow datastore.ClientApartmentDatabaseRow) ClientApartmentHttp {
 	clientApartmentHttp := ClientApartmentHttp{
 		ApartmentID:        &clientApartmentRow.ApartmentID,
@@ -108,6 +76,57 @@ func (h *ClientApartmentHttpHandler) convertToClientApartmentHttp(clientApartmen
 	return clientApartmentHttp
 }
 
+func (h *ClientApartmentHttpHandler) SelectAllClientApartmentsHandler(w http.ResponseWriter, r *http.Request) {
+	clientApartments, err := h.datastore.SelectAllClientApartments()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	clientApartmentsHttp := []ClientApartmentHttp{}
+
+	for _, clientApartment := range clientApartments {
+		clientApartmentHttp := h.convertToClientApartmentHttp(clientApartment)
+		clientApartmentsHttp = append(clientApartmentsHttp, clientApartmentHttp)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(clientApartmentsHttp)
+}
+
+func (h *ClientApartmentHttpHandler) convertToClientApartmentDatabaseRow(clientApartmentHttp ClientApartmentHttp) datastore.ClientApartmentDatabaseRow {
+	clientApartmentDatabaseRow := datastore.ClientApartmentDatabaseRow{
+		ApartmentID:   *clientApartmentHttp.ApartmentID,
+		StreetAddress: *clientApartmentHttp.StreetAddress,
+		City:          *clientApartmentHttp.City,
+		RentPrice:     *clientApartmentHttp.RentPrice,
+		ClientID:      *clientApartmentHttp.ClientID,
+	}
+
+	if clientApartmentHttp.Description != nil {
+		clientApartmentDatabaseRow.Description = sql.NullString{String: *clientApartmentHttp.Description, Valid: true}
+	}
+
+	if clientApartmentHttp.BuildingName != nil {
+		clientApartmentDatabaseRow.BuildingName = sql.NullString{String: *clientApartmentHttp.BuildingName, Valid: true}
+	}
+
+	if clientApartmentHttp.RoomNumber != nil {
+		clientApartmentDatabaseRow.RoomNumber = sql.NullString{String: *clientApartmentHttp.RoomNumber, Valid: true}
+	}
+
+	if clientApartmentHttp.PostalCode != nil {
+		clientApartmentDatabaseRow.PostalCode = sql.NullString{String: *clientApartmentHttp.PostalCode, Valid: true}
+	}
+
+	if clientApartmentHttp.IsAvailableForRent != nil {
+		clientApartmentDatabaseRow.IsAvailableForRent = sql.NullBool{Bool: *clientApartmentHttp.IsAvailableForRent, Valid: true}
+	}
+
+	return clientApartmentDatabaseRow
+}
+
 func (h *ClientApartmentHttpHandler) InsertClientApartmentHandler(w http.ResponseWriter, r *http.Request) {
 	var clientApartmentHttp ClientApartmentHttp
 
@@ -134,23 +153,4 @@ func (h *ClientApartmentHttpHandler) InsertClientApartmentHandler(w http.Respons
 	response := map[string]string{"message": responseMessage}
 
 	json.NewEncoder(w).Encode(response)
-}
-
-func (h *ClientApartmentHttpHandler) SelectAllClientApartmentsHandler(w http.ResponseWriter, r *http.Request) {
-	clientApartments, err := h.datastore.SelectAllClientApartments()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	clientApartmentsHttp := []ClientApartmentHttp{}
-
-	for _, clientApartment := range clientApartments {
-		clientApartmentHttp := h.convertToClientApartmentHttp(clientApartment)
-		clientApartmentsHttp = append(clientApartmentsHttp, clientApartmentHttp)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	json.NewEncoder(w).Encode(clientApartmentsHttp)
 }

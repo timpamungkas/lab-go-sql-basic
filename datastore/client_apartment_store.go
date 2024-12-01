@@ -66,9 +66,10 @@ func (s *ClientApartmentStore) InsertClientApartment(clientApartment *ClientApar
 }
 
 const sqlSelectAllClientApartments = `
-	SELECT apartment_id, description, building_name, room_number, street_address,
-		city, postal_code, is_available_for_rent, rent_price, client_id
-	FROM client_apartments;
+	  SELECT apartment_id, description, building_name, room_number, street_address,
+	       	 city, postal_code, is_available_for_rent, rent_price, client_id
+	    FROM client_apartments
+	ORDER BY city;
 `
 
 func (s *ClientApartmentStore) SelectAllClientApartments() ([]ClientApartmentDatabaseRow, error) {
